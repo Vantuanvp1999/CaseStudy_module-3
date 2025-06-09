@@ -43,6 +43,10 @@ public class ShoppingCartServlet extends HttpServlet {
             case "delete":
                 deleteCartItem(request, response);
                 break;
+            case "update":
+                updateCart(request, response);
+                break;
+
             default:
                 listProduct(request, response);
         }
@@ -99,6 +103,7 @@ public class ShoppingCartServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/cart/list.jsp");
         dispatcher.forward(request, response);
     }
+
     private void deleteCartItem(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         HttpSession session = request.getSession();
         List<Item> cart = (List<Item>) session.getAttribute("cart");
@@ -114,6 +119,43 @@ public class ShoppingCartServlet extends HttpServlet {
         RequestDispatcher dispatcher = request.getRequestDispatcher("/cart/list.jsp");
         dispatcher.forward(request, response);
     }
+    private void updateCart(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        HttpSession session = request.getSession();
+        int id = Integer.parseInt(request.getParameter("id"));
+        List<Item> cart = (List<Item>) session.getAttribute("cart");
+        int quantity = Integer.parseInt(request.getParameter("quantity"));
+
+        for (Item item : cart) {
+            if (item.getProduct().getId() == id) {
+                item.setQuantity(quantity);
+                break;
+            }
+        }
+        session.setAttribute("cart", cart);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("/cart/list.jsp");
+        dispatcher.forward(request, response);
+    }
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String action = request.getParameter("action");
+        if ("update".equals(action)) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            int quantity = Integer.parseInt(request.getParameter("quantity"));
+
+            HttpSession session = request.getSession();
+            List<Item> cart = (List<Item>) session.getAttribute("cart");
+
+            for (Item item : cart) {
+                if (item.getProduct().getId() == id) {
+                    item.setQuantity(quantity);
+                    break;
+                }
+            }
+
+            session.setAttribute("cart", cart);
+            response.sendRedirect("/carts"); // hoặc cart.jsp tùy bạn
+        }
+    }
+
 }
 
 

@@ -20,7 +20,7 @@ public class OrderService {
         Connection connection = null;
         try{
             connection =DBConnection.getConnection();
-            SimpleDateFormat format = new SimpleDateFormat("dd/mm/yyyy");
+            SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
             String orderDate = format.format(new Date());
             double totalPrice =0;
             for (Item item : cart) {

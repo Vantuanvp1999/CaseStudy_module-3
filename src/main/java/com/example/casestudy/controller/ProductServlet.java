@@ -90,11 +90,25 @@ public class ProductServlet extends HttpServlet {
     }
 
     private void updateProduct(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+        String uploads = "D:\\Module 3\\CaseStudy\\src\\main\\webapp\\resources\\uploads\\";
+        File fileSaveDir = new File(uploads);
+        if (!fileSaveDir.exists()) {
+            fileSaveDir.mkdirs();
+        }
+        String fileName = null;
+        //Get all the parts from request and write it to the file on server
+
+        for (Part part : req.getParts()) {
+            fileName = getFileName(part);
+            if (!fileName.isEmpty()) {
+                part.write(uploads + fileName);
+                break;
+            }
+        }
         int id = Integer.parseInt(req.getParameter("id"));
         String name = req.getParameter("name");
         double price = Double.parseDouble(req.getParameter("price"));
-        String image = req.getParameter("image");
-        Product product = new Product(id, name, price, image);
+        Product product = new Product(id, name, price, fileName);
         try {
             productService.update(product);
         } catch (SQLException e) {

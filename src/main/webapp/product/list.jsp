@@ -11,7 +11,7 @@
 <body>
 <div id="content" class="container mt-4">
     <h1>Content</h1>
-
+    <a href="/products?action=create" class="btn btn-primary" alt="..." > Create product</a>
     <div class="row">
         <c:forEach var="p" items="${listProduct}">
             <div class="col-md-4 mb-3">

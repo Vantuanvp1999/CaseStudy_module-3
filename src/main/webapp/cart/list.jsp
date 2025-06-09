@@ -46,24 +46,29 @@
             <th>Product Name</th>
             <th>Product Price</th>
             <th>Quantity</th>
+            <th>Price</th>
             <th>Delete</th>
             <th></th>
         </tr>
         <c:set var="totalPrice" value="${0}"/>
         <c:forEach var="item" items="${sessionScope.cart}">
+        <form action="/carts?action=update" method="post">
             <tr>
                 <td><p><c:out value="${item.getProduct().getName().toString()}"/></p></td>
                 <td><p><c:out value="${item.getProduct().getPrice().toString()}"/></p></td>
+                <input type="hidden" name="id" value="${item.product.id}">
                 <td>
                     <input type="text" id="quantity" name="quantity"
-                           value="${item.getQuantity().toString()}">
+                           value="${item.getQuantity().toString()}" onchange="this.form.submit()" min="1" >
                 </td>
+
                 <td><p>${item.quantity * item.product.price}</p></td>
                 <td>
                     <a href="/carts?action=delete&id=${item.product.id}" class="btn btn-danger">Xóa</a>
                 </td>
             </tr>
             <c:set var="totalPrice" value="${totalPrice + (item.getQuantity() * item.getProduct().getPrice())}"/>
+        </form>
         </c:forEach>
     </table>
     <p id="total">Total Price: <c:out value="${totalPrice}"/></p>
