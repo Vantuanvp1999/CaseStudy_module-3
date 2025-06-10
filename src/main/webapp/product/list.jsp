@@ -10,8 +10,8 @@
 </head>
 <body>
 <div id="content" class="container mt-4">
-    <h1>Content</h1>
-    <a href="/products?action=create" class="btn btn-primary" alt="..." > Create product</a>
+    <h1>List of product</h1>
+    <a href="/products?action=create" class="btn btn-primary mb-4" alt="..." > Create product</a>
     <div class="row">
         <c:forEach var="p" items="${listProduct}">
             <div class="col-md-4 mb-3">

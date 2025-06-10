@@ -18,7 +18,8 @@ public class ProductService implements IGeneralService<Product> {
         String query = "{CALL sp_get_products()}";
         try{
             Connection connection =DBConnection.getConnection();
-            CallableStatement statement = connection.prepareCall(query);
+            CallableStatement statement;
+            statement = connection.prepareCall(query);
             ResultSet resultSet = statement.executeQuery();
             while (resultSet.next()) {
                 int id = resultSet.getInt("id");
